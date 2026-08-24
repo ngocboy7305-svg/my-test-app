@@ -1,6 +1,7 @@
+import TaskCard from "@/components/_Button/TaskCard";
 import { Colors, FontSize, Spacing } from "@/constants/theme";
 import { Task } from "@/type/Task";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 export default function TasksScreen() {
     const task: Task = {
         id: 1,
@@ -13,8 +14,7 @@ export default function TasksScreen() {
     }
     return (
         <View style={styles.container}>
-            <Text>{task.title}</Text>
-            <Text>{task.description}</Text>
+            <TaskCard task={task} />
         </View>
     );
 }
