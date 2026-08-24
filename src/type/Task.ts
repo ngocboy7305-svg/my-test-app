@@ -6,4 +6,5 @@ export type Task = {
     completed: boolean;
     deadline?: string;
     createAt: string;
+    priorivity: 'Low' | 'Medium' | 'High';
 };
