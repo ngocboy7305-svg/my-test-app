@@ -1,4 +1,4 @@
-import AppCard from "@/components/_Button/AppCard";
+import EmptyState from "@/components/_Button/EmptyState";
 import { Colors, FontSize, Spacing } from "@/constants/theme";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -11,10 +11,9 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}> Công việc hôm nay</Text>
-      <AppCard>
-        <Text>1. Đi chợ</Text>
-        <Text>2. Đi làm project</Text>
-      </AppCard>
+      <EmptyState
+        title="Không có công việc"
+        message="Hãy thêm công việc cho ngày hôm nay!" />
     </View>
   );
 }
