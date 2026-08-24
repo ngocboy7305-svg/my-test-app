@@ -1,13 +1,22 @@
 import AppButton from "@/components/_Button/AppButton";
+import AppInput from "@/components/_Button/AppInput";
 import { Colors, FontSize, Spacing } from "@/constants/theme";
+import { useState } from "react";
 import { StyleSheet, View } from "react-native";
+
 export default function HomeScreen() {
+  const [name, setName] = useState('');
   const handlePress = () => {
     console.log('Bạn đã bấm vào nút Home');
   }
   return (
     <View style={styles.container}>
-      <AppButton title="Bấm thử đi" onPress={handlePress}
+      <AppInput
+        label="Họ tên:" placeholder="Nhập họ và tên"
+        value={name}
+        onChangeText={setName}
+      />
+      <AppButton title="Xác nhận" onPress={handlePress}
       />
     </View>
   );
