@@ -1,9 +1,14 @@
-import { Colors, Spacing } from "@/constants/theme";
-import { StyleSheet, Text, View } from "react-native";
+import AppButton from "@/components/_Button/AppButton";
+import { Colors, FontSize, Spacing } from "@/constants/theme";
+import { StyleSheet, View } from "react-native";
 export default function HomeScreen() {
+  const handlePress = () => {
+    console.log('Bạn đã bấm vào nút Home');
+  }
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
+      <AppButton title="Bấm thử đi" onPress={handlePress}
+      />
     </View>
   );
 }
@@ -17,7 +22,7 @@ const styles = StyleSheet.create({
     padding: Spacing.md, // Lấy khoảng trắng từ theme
   },
   title: {
-    fontSize: 24, //Kích thước chữ
+    fontSize: FontSize.title, //Kích thước chữ
     fontWeight: '700', //Độ đậm của chữ
     color: Colors.text, // Màu chữ từ theme
     marginBottom: Spacing.md, // Lấy khoảng trắng từ theme
