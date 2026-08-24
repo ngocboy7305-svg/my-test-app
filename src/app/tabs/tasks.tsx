@@ -1,3 +1,4 @@
+import { Colors, FontSize, Spacing } from "@/constants/theme";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function TasksScreen() {
@@ -13,10 +14,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5F5F5',
+        backgroundColor: Colors.background,
+        padding: Spacing.lg,
     },
     title: {
-        fontSize: 24,
+        fontSize: FontSize.title,
         fontWeight: '700',
+        color: Colors.text,
+        marginBottom: Spacing.md,
     },
 });
