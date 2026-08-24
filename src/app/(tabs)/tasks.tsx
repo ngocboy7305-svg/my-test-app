@@ -1,6 +1,7 @@
 import TaskCard from "@/components/_Button/TaskCard";
 import { Colors, FontSize, Spacing } from "@/constants/theme";
 import { Task } from "@/type/Task";
+import { router } from "expo-router";
 import { FlatList, StyleSheet, View } from "react-native";
 export default function TasksScreen() {
     const tasks: Task[] = [
@@ -36,7 +37,12 @@ export default function TasksScreen() {
         <View style={styles.container}>
             <FlatList
                 data={tasks} // lấy danh sách muốn hiển thị
-                renderItem={({ item }) => <TaskCard task={item} />} // mỗi item trong danh sách sẽ được hiển thị như thế nào
+                renderItem={({ item }) => <TaskCard task={item} onPress={() => router.push({
+                    pathname: "/task/[id]",
+                    params: {
+                        id: item.id.toString(),
+                    },
+                })} />} // mỗi item trong danh sách sẽ được hiển thị như thế nào
                 keyExtractor={(item) => item.id.toString()} // lấy id của mỗi item để làm key
                 contentContainerStyle={styles.list} //Style cho phần nd bên trong Flatlist
                 showsVerticalScrollIndicator={false} // Ẩn thanh cuộn dọc

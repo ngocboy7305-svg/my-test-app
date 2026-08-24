@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { Colors, FontSize, Spacing } from "@/constants/theme";
 import { Task } from "@/type/Task";
@@ -6,34 +6,37 @@ import AppCard from "./AppCard";
 
 interface TaskCardProps {
     task: Task; // Nhận 1 object Task từ component cha truyền vào
+    onPress?: () => void; // Hàm xử lý khi click vào card
 }
 
-export default function TaskCard({ task }: TaskCardProps) {
+export default function TaskCard({ task, onPress }: TaskCardProps) {
     return (
-        <AppCard>
-            <View style={styles.header}>
-                <Text style={styles.title}>{task.title}</Text>
-                <Text
-                    style={[
-                        styles.priority,
-                        task.priority === 'High' && styles.high,
-                        task.priority === 'Medium' && styles.medium,
-                        task.priority === 'Low' && styles.low,
-                    ]}
-                >
-                    {task.priority}
-                </Text>
-            </View>
-            <Text style={styles.description}>{task.description}</Text>
-            <View style={styles.footer}>
-                <Text style={styles.status}>{task.completed ? 'Đã hoàn thành' : 'Chưa hoàn thành'}</Text>
-                {task.deadline && (
-                    <Text style={styles.deadline}>
-                        Hết hạn: {task.deadline}
+        <Pressable onPress={onPress}>
+            <AppCard>
+                <View style={styles.header}>
+                    <Text style={styles.title}>{task.title}</Text>
+                    <Text
+                        style={[
+                            styles.priority,
+                            task.priority === 'High' && styles.high,
+                            task.priority === 'Medium' && styles.medium,
+                            task.priority === 'Low' && styles.low,
+                        ]}
+                    >
+                        {task.priority}
                     </Text>
-                )}
-            </View>
-        </AppCard>
+                </View>
+                <Text style={styles.description}>{task.description}</Text>
+                <View style={styles.footer}>
+                    <Text style={styles.status}>{task.completed ? 'Đã hoàn thành' : 'Chưa hoàn thành'}</Text>
+                    {task.deadline && (
+                        <Text style={styles.deadline}>
+                            Hết hạn: {task.deadline}
+                        </Text>
+                    )}
+                </View>
+            </AppCard>
+        </Pressable>
     );
 }
 
