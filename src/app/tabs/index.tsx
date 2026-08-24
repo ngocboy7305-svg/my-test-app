@@ -1,8 +1,7 @@
-import AppButton from "@/components/_Button/AppButton";
-import AppInput from "@/components/_Button/AppInput";
+import AppCard from "@/components/_Button/AppCard";
 import { Colors, FontSize, Spacing } from "@/constants/theme";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const [name, setName] = useState('');
@@ -11,13 +10,11 @@ export default function HomeScreen() {
   }
   return (
     <View style={styles.container}>
-      <AppInput
-        label="Họ tên:" placeholder="Nhập họ và tên"
-        value={name}
-        onChangeText={setName}
-      />
-      <AppButton title="Xác nhận" onPress={handlePress}
-      />
+      <Text style={styles.title}> Công việc hôm nay</Text>
+      <AppCard>
+        <Text>1. Đi chợ</Text>
+        <Text>2. Đi làm project</Text>
+      </AppCard>
     </View>
   );
 }
