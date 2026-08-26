@@ -1,6 +1,7 @@
 import AppButton from "@/components/_Button/AppButton";
 import { Colors, FontSize, Spacing } from "@/constants/theme";
 import { router, Stack, useLocalSearchParams } from "expo-router";
+import { useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 export default function TaskDetailScreen() {
     const { id, title } = useLocalSearchParams<{ id: string, title: string }>();
@@ -14,6 +15,7 @@ export default function TaskDetailScreen() {
             ]
         );
     };
+    const [completed, setCompleted] = useState(false);
     return (
         <>
             <Stack.Screen options={{ title: title }} />
@@ -33,6 +35,10 @@ export default function TaskDetailScreen() {
                     })}
                 />
                 <AppButton
+                    title={completed ? "Chưa hoàn thành" : "Hoàn thành"}
+                    onPress={() => setCompleted(!completed)}
+                />
+                <AppButton
                     title="Xóa công việc"
                     onPress={handleDelete}
                 />
@@ -40,7 +46,6 @@ export default function TaskDetailScreen() {
         </>
     );
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -59,4 +64,12 @@ const styles = StyleSheet.create({
         fontSize: FontSize.medium,
         color: Colors.textSecondary,
     },
+    complete: {
+        color: Colors.success,
+        fontWeight: '600'
+    },
+    incomplete: {
+        color: Colors.danger,
+        fontWeight: '600'
+    }
 });
