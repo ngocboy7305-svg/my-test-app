@@ -41,6 +41,7 @@ export default function TasksScreen() {
                     pathname: "/task/[id]",
                     params: {
                         id: item.id.toString(),
+                        title: item.title
                     },
                 })} />} // mỗi item trong danh sách sẽ được hiển thị như thế nào
                 keyExtractor={(item) => item.id.toString()} // lấy id của mỗi item để làm key

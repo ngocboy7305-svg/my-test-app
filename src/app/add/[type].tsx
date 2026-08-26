@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 
@@ -7,13 +7,16 @@ import AppInput from '@/components/_Button/AppInput';
 import { Colors, FontSize, Spacing } from '@/constants/theme';
 
 export default function AddScreen() {
-    const { type } = useLocalSearchParams<{ type: 'task' | 'expense' }>();
+    const { type, mode, id } = useLocalSearchParams<{ type: 'task' | 'expense'; mode: 'add' | 'edit'; id?: string }>();
 
     // Lưu dữ liệu người dùng nhập
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
     const isTask = type === 'task'; // Kiểm tra đang ở chế độ Task hay không
+    const isEdit = mode === 'edit';
+
+    const screenTitle = isEdit ? isTask ? 'Sửa công việc' : 'Sửa chi tiêu' : isTask ? 'Thêm công việc' : 'Thêm chi tiêu';
 
     const handleSubmit = () => {
         if (isTask) {
@@ -37,43 +40,46 @@ export default function AddScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>
-                {isTask ? 'Thêm công việc' : 'Thêm chi tiêu'}
-            </Text>
+        <>
+            <Stack.Screen options={{ title: screenTitle }} />
+            <View style={styles.container}>
+                <Text style={styles.title}>
+                    {isTask ? 'Thêm công việc' : 'Thêm chi tiêu'}
+                </Text>
 
-            {isTask ? (
-                <>
+                {isTask ? (
+                    <>
+                        <AppInput
+                            label="Tên công việc"
+                            placeholder="Nhập tên công việc"
+                            value={title}
+                            onChangeText={setTitle}
+                        />
+
+                        <AppInput
+                            label="Mô tả"
+                            placeholder="Nhập mô tả"
+                            value={description}
+                            onChangeText={setDescription}
+                            multiline
+                        />
+                    </>
+                ) : (
                     <AppInput
-                        label="Tên công việc"
-                        placeholder="Nhập tên công việc"
+                        label="Số tiền"
+                        placeholder="Nhập số tiền"
+                        keyboardType="numeric"
                         value={title}
                         onChangeText={setTitle}
                     />
+                )}
 
-                    <AppInput
-                        label="Mô tả"
-                        placeholder="Nhập mô tả"
-                        value={description}
-                        onChangeText={setDescription}
-                        multiline
-                    />
-                </>
-            ) : (
-                <AppInput
-                    label="Số tiền"
-                    placeholder="Nhập số tiền"
-                    keyboardType="numeric"
-                    value={title}
-                    onChangeText={setTitle}
+                <AppButton
+                    title={isTask ? 'Thêm công việc' : 'Thêm chi tiêu'}
+                    onPress={handleSubmit}
                 />
-            )}
-
-            <AppButton
-                title={isTask ? 'Thêm công việc' : 'Thêm chi tiêu'}
-                onPress={handleSubmit}
-            />
-        </View>
+            </View>
+        </>
     );
 }
 
