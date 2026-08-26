@@ -2,7 +2,9 @@ import TaskCard from "@/components/_Button/TaskCard";
 import { Colors, FontSize, Spacing } from "@/constants/theme";
 import { Task } from "@/type/Task";
 import { router } from "expo-router";
-import { FlatList, StyleSheet, View } from "react-native";
+import { Text } from "expo-router/build/react-navigation";
+import { useState } from "react";
+import { FlatList, Pressable, StyleSheet, View } from "react-native";
 export default function TasksScreen() {
     const tasks: Task[] = [
         {
@@ -33,10 +35,38 @@ export default function TasksScreen() {
             createAt: '24/08/2026',
         },
     ];
+    type TaskFilter = 'all' | 'pending' | 'completed'
+
+    const [filter, setFilter] = useState<TaskFilter>('all');
+    const filterTasks = tasks.filter((task) => {
+        if (filter === 'pending') return !task.completed;
+        if (filter === 'completed') return task.completed;
+        return true;
+    });
     return (
         <View style={styles.container}>
+            <View style={styles.filterContainer}>
+                <Pressable
+                    style={[styles.filterButton, filter === 'all' && styles.filterButtonActive,]}
+                    onPress={() => setFilter('all')}
+                >
+                    <Text style={[styles.filterText, filter === 'all' && styles.filterTextActive]}>Tất cả</Text>
+                </Pressable>
+                <Pressable
+                    style={[styles.filterButton, filter === 'pending' && styles.filterButtonActive,]}
+                    onPress={() => setFilter('pending')}
+                >
+                    <Text style={[styles.filterText, filter === 'pending' && styles.filterTextActive]}>Đang chờ</Text>
+                </Pressable>
+                <Pressable
+                    style={[styles.filterButton, filter === 'completed' && styles.filterButtonActive,]}
+                    onPress={() => setFilter('completed')}
+                >
+                    <Text style={[styles.filterText, filter === 'completed' && styles.filterTextActive]}>Hoàn thành</Text>
+                </Pressable>
+            </View>
             <FlatList
-                data={tasks} // lấy danh sách muốn hiển thị
+                data={filterTasks} // lấy danh sách muốn hiển thị
                 renderItem={({ item }) => <TaskCard task={item} onPress={() => router.push({
                     pathname: "/task/[id]",
                     params: {
@@ -69,5 +99,35 @@ const styles = StyleSheet.create({
     list: {
         padding: 20, //Khoảnh cách giữa ds và mép màn hình
         gap: 12, //Khoảng cách giữa các card với nhau
+    },
+    filterContainer: {
+        flexDirection: 'row', // Các filter nằm ngang
+        gap: Spacing.sm, // Khoảng cách giữa các filter
+        paddingHorizontal: Spacing.lg, // Khoảng cách trái phải
+        paddingTop: Spacing.md, // Khoảng cách phía trên
+    },
+
+    filterButton: {
+        paddingHorizontal: Spacing.md, // Khoảng cách trái phải bên trong button
+        paddingVertical: Spacing.sm, // Khoảng cách trên dưới bên trong button
+        borderRadius: 20, // Bo tròn button
+        backgroundColor: Colors.white, // Màu nền
+        borderWidth: 1, // Độ dày viền
+        borderColor: Colors.border, // Màu viền
+    },
+
+    filterButtonActive: {
+        backgroundColor: Colors.primary, // Màu khi filter đang được chọn
+        borderColor: Colors.primary, // Viền cùng màu với button
+    },
+
+    filterText: {
+        fontSize: FontSize.small, // Cỡ chữ
+        color: Colors.textSecondary, // Màu chữ thường
+    },
+
+    filterTextActive: {
+        color: Colors.white, // Chữ trắng khi đang chọn
+        fontWeight: '600', // Chữ đậm hơn
     },
 });
