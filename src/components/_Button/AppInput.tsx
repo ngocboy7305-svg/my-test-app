@@ -12,7 +12,7 @@ export default function AppInput({
     return (
         <View style={styles.container}>
             <Text style={styles.label}>{label}</Text>
-            <TextInput style={styles.input}
+            <TextInput style={[styles.input, props.style]}
                 placeholderTextColor={Colors.textSecondary}
                 {...props} />
         </View>
@@ -22,7 +22,7 @@ export default function AppInput({
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        gap: Spacing.xs,
+        // gap: Spacing.xs,
     },
     label: {
         fontSize: FontSize.medium,

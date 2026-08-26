@@ -1,11 +1,12 @@
+import AppInput from "@/components/_Button/AppInput";
 import TaskCard from "@/components/_Button/TaskCard";
 import { Colors, FontSize, Spacing } from "@/constants/theme";
 import { Task } from "@/type/Task";
 import { router } from "expo-router";
-import { Text } from "expo-router/build/react-navigation";
 import { useState } from "react";
-import { FlatList, Pressable, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 export default function TasksScreen() {
+    const [search, setSearch] = useState('');
     const tasks: Task[] = [
         {
             id: 1,
@@ -39,9 +40,9 @@ export default function TasksScreen() {
 
     const [filter, setFilter] = useState<TaskFilter>('all');
     const filterTasks = tasks.filter((task) => {
-        if (filter === 'pending') return !task.completed;
-        if (filter === 'completed') return task.completed;
-        return true;
+        const matchFilter = filter === 'all' ? true : filter === 'pending' ? !task.completed : task.completed;
+        const matchSearch = task.title.toLowerCase().includes(search.toLowerCase());
+        return matchFilter && matchSearch;
     });
     return (
         <View style={styles.container}>
@@ -65,6 +66,7 @@ export default function TasksScreen() {
                     <Text style={[styles.filterText, filter === 'completed' && styles.filterTextActive]}>Hoàn thành</Text>
                 </Pressable>
             </View>
+            <AppInput placeholder="Tìm kiếm công việc..." value={search} onChangeText={setSearch} style={styles.searchInput} />
             <FlatList
                 data={filterTasks} // lấy danh sách muốn hiển thị
                 renderItem={({ item }) => <TaskCard task={item} onPress={() => router.push({
@@ -85,10 +87,15 @@ export default function TasksScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: Colors.background,
         padding: Spacing.lg,
+    },
+    searchInput: {
+        // marginBottom: Spacing.md,
+        borderRadius: 20, // Bo tròn button
+        borderColor: Colors.border, // Viền cùng màu với button
+        borderWidth: 2, // Độ dày viền
+        paddingLeft: 10,
     },
     title: {
         fontSize: FontSize.title,
@@ -104,7 +111,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row', // Các filter nằm ngang
         gap: Spacing.sm, // Khoảng cách giữa các filter
         paddingHorizontal: Spacing.lg, // Khoảng cách trái phải
-        paddingTop: Spacing.md, // Khoảng cách phía trên
+        //paddingTop: Spacing.md, // Khoảng cách phía trên
     },
 
     filterButton: {
